@@ -14,3 +14,5 @@ npm start              # или npm run dev
 ```
 
 Аватарка: `assets/avatar.png` (исходник), `assets/avatar.jpg` (640px). Залить в Telegram: `./scripts/set-avatar.sh` (Bot API `setMyProfilePhoto`, только JPG).
+
+Деплой на Ubuntu (systemd): см. [DEPLOY.md](DEPLOY.md).

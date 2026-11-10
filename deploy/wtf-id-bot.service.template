@@ -1,0 +1,27 @@
+# systemd unit template for wtf-id-bot.
+# Replace the placeholders and install as /etc/systemd/system/wtf-id-bot.service:
+#   {{USER}}     — Linux user the bot runs as (owns the app directory)
+#   {{APP_DIR}}  — absolute path to the cloned repo, e.g. /home/{{USER}}/apps/wtf-id-bot
+#   {{LOG_FILE}} — absolute path to the log file, e.g. /var/log/wtf-id-bot.log
+# See DEPLOY.md for a one-liner that fills them in with sed.
+
+[Unit]
+Description=wtf-id-bot (Telegram ID bot)
+After=network-online.target
+Wants=network-online.target
+# Never give up restarting during a long Telegram/network outage
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User={{USER}}
+WorkingDirectory={{APP_DIR}}
+ExecStart={{APP_DIR}}/node_modules/.bin/tsx src/index.ts
+Restart=always
+RestartSec=15
+TimeoutStopSec=15
+StandardOutput=append:{{LOG_FILE}}
+StandardError=append:{{LOG_FILE}}
+
+[Install]
+WantedBy=multi-user.target

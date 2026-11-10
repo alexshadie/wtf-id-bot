@@ -122,6 +122,9 @@ await bot.api.setMyDescription(
 );
 await bot.api.setMyShortDescription("ID групп, каналов и пользователей");
 
+// systemd sends SIGTERM on stop/restart — finish the current poll and exit cleanly
+for (const sig of ["SIGINT", "SIGTERM"] as const) process.once(sig, () => bot.stop());
+
 bot.start({
   allowed_updates: ["message", "my_chat_member"],
   onStart: (me) => console.log(`@${me.username} started`),

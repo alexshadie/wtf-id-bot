@@ -1,0 +1,16 @@
+# logrotate template for wtf-id-bot. Replace {{LOG_FILE}} and {{USER}},
+# install as /etc/logrotate.d/wtf-id-bot.
+# copytruncate is required: systemd keeps the log fd open (StandardOutput=append:),
+# so a plain rename would leave the bot writing into the rotated file.
+{{LOG_FILE}} {
+    weekly
+    rotate 8
+    size 10M
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    su {{USER}} {{USER}}
+    create 0644 {{USER}} {{USER}}
+}
